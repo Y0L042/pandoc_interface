@@ -73,7 +73,7 @@ layout = [
             [sg.Text("Choose your files:")],
             [sg.Text(' Input'), sg.InputText(key="-INPUT-" ,change_submits=True), sg.FileBrowse(key="-IN-"), sg.Button('Add File')],          
             [sg.Listbox(key='-LB_INPUT-', values=lb_inputValues, size=(longBoxSize,15), change_submits=True)], #select_mode=sg.LISTBOX_SELECT_MODE_MULTIPLE,
-            [sg.Button("Move Up"), sg.Button("Move Down")],
+            #[sg.Button("Move Up"), sg.Button("Move Down")],
             [sg.Button('Remove File')],
             
             [sg.Text('Output'), sg.InputText(key="-OUTPUT-", change_submits=True, size=(25,1)), sg.InputText(key="-OUTPUT_FOLDER-",change_submits=True), sg.FolderBrowse()],
@@ -120,6 +120,9 @@ while True:
         lb_inputValues.remove(filterItem)
         window["-LB_INPUT-"].update(lb_inputValues)    
         
+    if event=='Move Up':
+        selected = window['-LB_INPUT-'].get()
+    
         
     if event=='-ADD_NEW_PARAM-':
         paramsList.append(values['-NEW_PARAM-'])
@@ -131,7 +134,15 @@ while True:
         filterItem = remove_list[0]
         paramsList.remove(filterItem)
         window['-LB_PARAMS-'].update(paramsList)
-        writeParams
+        clear = open('params.txt', 'w')
+        clear.close()
+        paramsFile = open("params.txt", "w")
+        for items in paramsList:
+            paramsFile.writelines(items+'\n')
+        paramsFile.close()
+        #writeParams
+        readParams()
+        print(paramsList)
           
     #continually update
     FinalString = compileString()

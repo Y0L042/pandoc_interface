@@ -1,4 +1,3 @@
---number-sections
 --toc
+--number-sections
 -V papersize=a4
---moretests
